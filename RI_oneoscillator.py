@@ -111,7 +111,7 @@ ax.set_xscale('log')
 
 for t in range(len(tau)):
     ax.plot(numbers, ps[t], label=rf'$\tau$={tau[t]}')
-
+ax.hlines(p_inf,1,1000000,color='black', linestyle='--', label=r'$p_s^{(\infty)}$')
 ax.legend()
 ax.xaxis.set_label_text('Number of iterations')
 ax.yaxis.set_label_text(r'$p_s^{(n)}$')
