@@ -8,6 +8,9 @@ H = -ws/2 * sigma_z(S)*I - wa/2 * I*sigma_z(A) + Jxx * sigma_x(S) * sigma_x(A) +
 
 It is simulated using the repeated interaction protocol, where the system interacts with a fresh ancilla at each time step tau. 
 The evolution of the system's state is calculated by tracing out the ancilla after each interaction.
+
+https://doi.org/10.1088/2058-9565/adc7d4
+
 """
 
 #%%
