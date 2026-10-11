@@ -62,6 +62,26 @@ def Linblad(t, rho, H,Gamma):
     return linblad.flatten()
 #%%
 class Exact_solution_single_oscillator:
+    '''
+    Class to obtain the exact solution of linblad equation given a single oscillator with H = omega/2 sigma_z and L = sigma^-.    
+    The expected values of sigma_x, sigma_y, sigma_z are obtained from t = 0 to t= t_max.
+
+    Parameters
+    ----------
+    omega: float
+        Frequency of the systems
+    Gamma: float
+        Parameter of Linclad equation (strength of the coupling with the system)
+    theta: float, optional
+        Angle initial state. Default value np.pi/3
+    phi: float, optional
+        Angle initial state. Default value np.pi/3
+    t_max: float, optional
+        The solution will be given from t= 0 to t= tmax. Default value 30.
+    n_points: int, optional
+        Number of points that will be extracted from the solution. Default value 1000.
+
+    '''
     def __init__(self, omega, Gamma, theta = np.pi/3, phi = np.pi/3, t_max =30,n_points = 1000 ):
         self.omega = omega
         self.Gamma = Gamma
@@ -108,6 +128,24 @@ class Exact_solution_single_oscillator:
 
 
 class RI_single_oscillator:
+    '''
+    Class to obtain the  solution of linblad equation given a single oscillator with H = omega/2 sigma_z under repeated interaction (or collision model) protocol
+    where trotterization is implemented. It gives the expected values for sigma_x, sigma_y, sigma_z from t = 0 to t= t_max, in temporal steps delta_t.
+
+    Parameters
+    ----------
+    g: float
+        Interaction parameter. (omega = 2g, Gamma = 0.5g)
+    delta_t: float
+        Size of the temporal step
+    theta: float, optional
+        Angle initial state. Default value np.pi/3
+    phi: float, optional
+        Angle initial state. Default value np.pi/3
+    t_max: float, optional
+        The solution will be given from t= 0 to t= tmax. Default value 30.
+
+    '''
     def __init__(self, g, delta_t, theta = np.pi/3, phi = np.pi/3, t_max =40 ):
             self.g = g
             self.delta_t = delta_t
@@ -163,6 +201,27 @@ class RI_single_oscillator:
 
 
 class continuous_trotter_collision:
+    '''
+    Class to obtain the exact solution of linblad equation given a single oscillator with H = omega/2 sigma_z and L = sigma^- as well as 
+    under repeated interaction (or collision model) protocol where trotterization is implemented. 
+    It gives the expected values for sigma_x, sigma_y, sigma_z from t = 0 to t= t_max, for the exat solution and from RI in temporal steps delta_t.
+
+    Parameters
+    ----------
+    g: float
+        Interaction parameter. (omega = 2g, Gamma = 0.5g)
+    delta_t: float
+        Size of the temporal step
+    theta: float, optional
+        Angle initial state. Default value np.pi/3
+    phi: float, optional
+        Angle initial state. Default value np.pi/3
+    t_max: float, optional
+        The solution will be given from t= 0 to t= tmax. Default value 30.
+    n_points_cont: int, optional
+        Number of points that will be extracted from the solution in the exact model. Default value 1000.
+    
+    '''
     def __init__(self, g, delta_t, theta = np.pi/3, phi = np.pi/3, t_max =30, npoints_cont = 1000 ):
         self.g = g
         self.delta_t = delta_t
@@ -250,6 +309,30 @@ class continuous_trotter_collision:
 
 
 class continuous_collision_qiskit:
+    '''
+    Class to obtain the exact solution of linblad equation given a single oscillator with H = omega/2 sigma_z and L = sigma^- as well as 
+    under repeated interaction (or collision model) protocol where trotterization is implemented. 
+    It gives the expected values for sigma_x, sigma_y, sigma_z from t = 0 to t= t_max, for the excat solution and from RI in temporal steps delta_t.
+    The expected values using a quantum circuit with qiskit are also represented.
+
+    Parameters
+    ----------
+    g: float
+        Interaction parameter. (omega = 2g, Gamma = 0.5g)
+    delta_t: float
+        Size of the temporal step
+    theta: float, optional
+        Angle initial state. Default value np.pi/3
+    phi: float, optional
+        Angle initial state. Default value np.pi/3
+    t_max: float, optional
+        The solution will be given from t= 0 to t= tmax. Default value 30.
+    n_points_cont: int, optional
+        Number of points that will be extracted from the solution in the exact model. Default value 1000.
+    file: string, optional
+        File with time and the expected value for sigma_x, sigma_y, sigma_z using qiskit. Default "qiskit2_sxsysz.txt"
+    
+    '''
     def __init__(self, g, delta_t, theta = np.pi/3, phi = np.pi/3, t_max =30, npoints_cont = 1000 , file = "qiskit2_sxsysz.txt"):
         self.g = g
         self.delta_t = delta_t
