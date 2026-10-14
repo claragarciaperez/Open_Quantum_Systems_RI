@@ -330,10 +330,18 @@ class continuous_collision_qiskit:
     n_points_cont: int, optional
         Number of points that will be extracted from the solution in the exact model. Default value 1000.
     file: string, optional
-        File with time and the expected value for sigma_x, sigma_y, sigma_z using qiskit. Default "qiskit2_sxsysz.txt"
+        File with time and the expected value for sigma_x, sigma_y, sigma_z using qiskit. Default "qiskit2_nonoise_sxsysz_ns1024.txt"
+    ns: int, optional
+        Number of shots used on qiskit. Default is 1024
+    sigmas: int, optional
+        Number of sigmas for the errors bars for data from qiskit. Default is 2
+    errorbars: Boal, Optional
+        Whether the qiskit data points have error bars. Default True
+    label_qiskit: String, Optional
+        Name of the label of the qiskit datapoints on the plots. Default '(no noise)'
     
     '''
-    def __init__(self, g, delta_t, theta = np.pi/3, phi = np.pi/3, t_max =30, npoints_cont = 1000 , file = "qiskit2_sxsysz.txt"):
+    def __init__(self, g, delta_t, theta = np.pi/3, phi = np.pi/3, t_max =30, npoints_cont = 1000 , file = "qiskit2_nonoise_sxsysz_ns1024.txt", ns = 1024, sigmas = 2, errorbars = True, label_qiskit = '(no noise)'):
         self.g = g
         self.delta_t = delta_t
         self.theta = theta
@@ -343,6 +351,10 @@ class continuous_collision_qiskit:
         self.Gamma = g/2
         self.npoints_cont = npoints_cont
         self.file = file
+        self.ns = ns
+        self.sigmas = sigmas
+        self.errorbars = errorbars
+        self.label_qiskit = label_qiskit
 
     def V(self):
         return self.g*(np.kron(sigma_minus(),sigma_plus()) + np.kron(sigma_plus(),sigma_minus()))
@@ -403,39 +415,121 @@ class continuous_collision_qiskit:
             exp_sigmaz.append(np.trace(rho[i]@sigma_z()))
         return [time,exp_sigmax,exp_sigmay,exp_sigmaz]
 
+    def save_file_cont(self):
+        time_cont, exp_sigmax_cont, exp_sigmay_cont,exp_sigmaz_cont = self.expected_values_cont()
+
+        data = np.column_stack((np.real(time_cont), np.real(exp_sigmax_cont), np.real(exp_sigmay_cont),np.real(exp_sigmaz_cont)))
+
+        np.savetxt(
+        "cont_solution.txt",
+        data,
+        header="t sx sy sz",
+        fmt="%.10f"
+        )
+
+    def save_file_RI(self):
+        time_col, exp_sigmax_col, exp_sigmay_col,exp_sigmaz_col = self.expected_values_RI()
+
+        data = np.column_stack((np.real(time_col),  np.real(exp_sigmax_col), np.real(exp_sigmay_col),np.real(exp_sigmaz_col)))
+
+        np.savetxt(
+        "RI_solution.txt",
+        data,
+        header="t sx sy sz",
+        fmt="%.10f"
+        )
+
+
     def plot_expectedval(self):
         time_cont, exp_sigmax_cont, exp_sigmay_cont,exp_sigmaz_cont = self.expected_values_cont()
         x_cont = time_cont*self.g
         time_col, exp_sigmax_col, exp_sigmay_col,exp_sigmaz_col = self.expected_values_RI()
         x_col = time_col*self.g
         data_qiskit = np.loadtxt(self.file)
+        
         x_qiskit  = data_qiskit[:, 0]*self.g
         sx_qiskit= data_qiskit[:, 1]
         sy_qiskit = data_qiskit[:, 2]
         sz_qiskit = data_qiskit[:, 3]
+
+        error_sx_qiskit = []
+        for i in range(len (sx_qiskit)):
+            error_sx_qiskit.append(self.sigmas*np.sqrt((1-sx_qiskit[i]**2)/self.ns ))
+        error_sy_qiskit = []
+        for i in range(len (sy_qiskit)):
+            error_sy_qiskit.append(self.sigmas*np.sqrt((1-sy_qiskit[i]**2)/self.ns) )
+        error_sz_qiskit = []
+        for i in range(len (sz_qiskit)):
+            error_sz_qiskit.append(self.sigmas*np.sqrt((1-sz_qiskit[i]**2)/self.ns ))
+
+
+        #plt.title('IBM_kingston - Refresh Ancilla')
         plt.plot(x_cont, exp_sigmax_cont, label=rf'$\langle \sigma_x\rangle$ Cont')
         plt.plot(x_cont, exp_sigmay_cont, label=rf'$\langle \sigma_y\rangle$ Cont')
         plt.plot(x_cont, exp_sigmaz_cont, label=rf'$\langle \sigma_z\rangle$ Cont')
         plt.scatter(x_col, exp_sigmax_col, label=rf'$\langle \sigma_x\rangle$ RI trotter')
         plt.scatter(x_col, exp_sigmay_col, label=rf'$\langle \sigma_y\rangle$ RI trotter')
         plt.scatter(x_col, exp_sigmaz_col, label=rf'$\langle \sigma_z\rangle$ RI trotter')
-        plt.scatter(
-            x_qiskit, sx_qiskit,
-            marker='^', facecolors='none', edgecolors='blue',
-            label=rf'$\langle \sigma_x\rangle$ Qiskit (No noise)'
-        )
+        
 
-        plt.scatter(
-            x_qiskit, sy_qiskit,
-            marker='^', facecolors='none', edgecolors='orange',
-            label=rf'$\langle \sigma_y\rangle$ Qiskit (No noise)'
-        )
+        if self.errorbars == True:
 
-        plt.scatter(
-            x_qiskit, sz_qiskit,
-            marker='^', facecolors='none', edgecolors='green',
-            label=rf'$\langle \sigma_z\rangle$ Qiskit (No noise)'
-        )
+            plt.errorbar(
+                x_qiskit,
+                sz_qiskit,
+                yerr=error_sz_qiskit,
+                xerr=0,
+                fmt='^',
+                markerfacecolor='none',
+                markeredgecolor='green',
+                ecolor='green',
+                label=rf'$\langle \sigma_z\rangle$ Qiskit {self.label_qiskit}'
+            )
+            plt.errorbar(
+                        x_qiskit,
+                        sx_qiskit,
+                        yerr=error_sx_qiskit,
+                        xerr=0,
+                        fmt='^',
+                        markerfacecolor='none',
+                        markeredgecolor='blue',
+                        ecolor='blue',
+                        label=rf'$\langle \sigma_x\rangle$ Qiskit {self.label_qiskit}'
+                    )
+            plt.errorbar(
+                        x_qiskit,
+                        sy_qiskit,
+                        yerr=error_sy_qiskit,
+                        xerr=0,
+                        fmt='^',
+                        markerfacecolor='none',
+                        markeredgecolor='orange',
+                        ecolor='orange',
+                        label=rf'$\langle \sigma_y\rangle$ Qiskit {self.label_qiskit}'
+                    )
+        else:
+
+            plt.scatter(
+                       x_qiskit, sx_qiskit,
+                        marker='^', facecolors='none', edgecolors='blue',
+                        label=rf'$\langle \sigma_x\rangle$ Qiskit {self.label_qiskit}'
+                    )
+                    
+                    
+            
+            
+            plt.scatter(
+                x_qiskit, sy_qiskit,
+                marker='^', facecolors='none', edgecolors='orange',
+                label=rf'$\langle \sigma_y\rangle$ Qiskit {self.label_qiskit}'
+            )
+    
+            plt.scatter(
+                x_qiskit, sz_qiskit,
+                  marker='^', facecolors='none', edgecolors='green',
+                   label=rf'$\langle \sigma_z\rangle$ Qiskit {self.label_qiskit}'
+            )
+
         plt.xlabel('gt')
         plt.ylabel('Expected Value')
         plt.legend(loc='center left', bbox_to_anchor=(1.02, 0.5))
