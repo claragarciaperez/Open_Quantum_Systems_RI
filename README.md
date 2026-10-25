@@ -9,5 +9,5 @@
   - *qiskit_depolarizing.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI, with noise. We consider depolarizing in the gates.
   - *qiskit_readout.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI, with noise. We consider the probability of error when measuring.
   - *qiskit_relaxation.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI, with noise. We consider decoherence by thermal relaxation.
-## Finite temperature
+### Finite temperature
   - *qiskit_thermalstate.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI. The ancilla will be in a thermal Gibbs state. Can be calculated noiseless or with backend.
