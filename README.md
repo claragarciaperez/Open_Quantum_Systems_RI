@@ -11,3 +11,5 @@
   - *qiskit_relaxation.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI, with noise. We consider decoherence by thermal relaxation.
 ### Finite temperature
   - *qiskit_thermalstate.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI. The ancilla is in a thermal Gibbs state. To obtain it we have an extra qubit and we apply an ry gate to the ancilla and then a not gate to the ancilla and extra qubit. Can be calculated noiseless or with backend.
+  - *qiskit_thermalstate2.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI. The ancilla is in a thermal Gibbs state. To obtain it we do classical sampling. Can be calculated noiseless or with backend.
+  - *qiskit_bosonicbath.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI. The bath is bosonic, and it is obtained by adding a thermal dependance related with bosonic statistics in the coupling g.
