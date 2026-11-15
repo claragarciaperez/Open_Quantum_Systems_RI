@@ -1,5 +1,5 @@
 # Open_Quantum_Systems_RI
-## Single Oscillator
+## System: spin
 ### T = 0
   - *single_oscill_cont_trott.py*: classes to simulate a single oscillator exactly either with Linblad equation or with Repeated interaction protocol with (or without) trotterization. Also it can be compared with the results from a quantum circuit.
   - *qiskit_nonoise.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI, without noise.
@@ -13,3 +13,6 @@
   - *qiskit_thermalstate.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI. The ancilla is in a thermal Gibbs state. To obtain it we have an extra qubit and we apply an ry gate to the ancilla and then a not gate to the ancilla and extra qubit. Can be calculated noiseless or with backend.
   - *qiskit_thermalstate2.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI. The ancilla is in a thermal Gibbs state. To obtain it we do classical sampling. Can be calculated noiseless or with backend.
   - *qiskit_bosonicbath.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI. The bath is bosonic, and it is obtained by adding a thermal dependance related with bosonic statistics in the coupling g.
+
+## System: spin + quantum harmonic oscillator
+- *qiskit_harmonicoscill.ipynb*: harmonic oscillator coupled to a spin (transversal or longitudinal). The spin is coupled to a bath, treated as an ancilla RI model. The bath can be at a finite temperature and be either a boson or spin bath.
