@@ -15,5 +15,8 @@
   - *qiskit_bosonicbath.ipynb*: jupyer notebook to do the quantum circuit for a single oscillator under RI. The bath is bosonic, and it is obtained by adding a thermal dependance related with bosonic statistics in the coupling g.
 
 ## System: spin + quantum harmonic oscillator
+### Harmonic Oscillator coupled to a spin. Spin coupled to a bath.
 - *qiskit_harmonicoscill.ipynb*: Quantum circuit of harmonic oscillator coupled to a spin (transversal or longitudinal). The spin is coupled to a bath, treated as an ancilla RI model. The bath can be at a finite temperature and be either a boson or spin bath.
 - *linblad_harmtransspinbosonicbath.py*: harmonic oscillator coupled to a spin (transversal coupling). The spin is coupled to a bath that can be at a finite temperature and be either a boson or spin bath. The code solves lindblad equation for such system.
+### Harmonic Oscillator coupled to a bath.
+
