@@ -91,7 +91,7 @@ def Linblad(t, rho, H,Gamma,n_B,truncation = 4):
     return linblad.flatten()
 
 #%%
-class Exact_solution_spinharmoscbath:
+class Exact_solution_spin_harmoscil_bath:
     '''
     Class to obtain the exact solution of linblad equation given a single oscillator with H =omega_h a^dagger a + ws/2 sigmaz + lambda sigma_x(a+a^dagger), and
         L1 = sqrt(Gamma * n_B) a^{\dagger}
@@ -102,6 +102,16 @@ class Exact_solution_spinharmoscbath:
     ----------
     Gamma: float
         Parameter of Linclad equation (strength of the coupling with the system)
+    omega: float
+        Frequency of the spin
+    omega_h: float
+        Frequency of the harmonic oscillator
+    omega_A: float
+        Frequency of the bath
+    l: float
+        Parameter lambda of the strength of the interaction spin-harmonic oscillator
+    T: float
+        Temperature of the bath
     theta: float, optional
         Angle initial state. Default value np.pi/3
     phi: float, optional
@@ -110,7 +120,7 @@ class Exact_solution_spinharmoscbath:
         The solution will be given from t= 0 to t= tmax. Default value 30.
     n_points: int, optional
         Number of points that will be extracted from the solution. Default value 1000.
-    trincation: int, optional
+    truncation: int, optional
         The truncation of the harmonic oscillator. Default value 4.
 
     '''
@@ -226,12 +236,9 @@ class Exact_solution_spinharmoscbath:
     
 # %%
 for T in [0,0.1,0.25,0.5,1]:
-    Exact_solution_spinharmoscbath(omega = 0.5, Gamma = 0.25,omega_A=0.25,omega_h=0.5,l= 0.25,T =T, t_max=25, truncation=4).save_file()
+    Exact_solution_spin_harmoscil_bath(omega = 0.5, Gamma = 0.25,omega_A=0.25,omega_h=0.5,l= 0.25,T =T, t_max=25, truncation=4).save_file()
 
-    Exact_solution_spinharmoscbath(omega = 0.5, Gamma = 0.25,omega_A=0.5,omega_h=0.5,l= 0.25,T =T, t_max=25, truncation=4).plot_expectedval()
+    Exact_solution_spin_harmoscil_bath(omega = 0.5, Gamma = 0.25,omega_A=0.5,omega_h=0.5,l= 0.25,T =T, t_max=25, truncation=4).plot_expectedval()
 
 
-# %%
-Exact_solution_spinharmoscbath(omega = 0.5, Gamma = 0.25,omega_A=0.25,omega_h=0.5,l= 0.25,T =T, t_max=25, truncation=4).plot_expectedval_temperature()
 
-# %%
