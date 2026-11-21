@@ -93,13 +93,21 @@ def Linblad(t, rho, H,Gamma,n_B,truncation = 4):
 #%%
 class Exact_solution_harmosc:
     '''
-    Class to obtain the exact solution of linblad equation given a single oscillator with H = omega/2 sigma_z and L = sigma^-.
-    The expected values of sigma_x, sigma_y, sigma_z are obtained from t = 0 to t= t_max.
+    Class to obtain the exact solution of linblad equation given a single oscillator with H =omega_h a^dagger a. The spin is coupled to a bosonic bath with the following lindblad operators:
+    L1 = sqrt(Gamma * n_B) a^{\dagger}
+    L2 = sqrt(Gamma * (n_B + 1)) a
+    The expected value of n is obtained from t = 0 to t= t_max.
 
     Parameters
     ----------
     Gamma: float
-        Parameter of Linclad equation (strength of the coupling with the system)
+        Parameter of Lindblad equation (strength of the coupling with the system)
+    omega_h: float
+        Frequency of the harmonic oscillator
+    omega_A: float
+        Frequency of the bath
+    T: float
+        Temperature of the bath
     theta: float, optional
         Angle initial state. Default value np.pi/3
     phi: float, optional
@@ -108,7 +116,7 @@ class Exact_solution_harmosc:
         The solution will be given from t= 0 to t= tmax. Default value 30.
     n_points: int, optional
         Number of points that will be extracted from the solution. Default value 1000.
-    trincation: int, optional
+    truncation: int, optional
         The truncation of the harmonic oscillator. Default value 4.
 
     '''
@@ -192,10 +200,6 @@ class Exact_solution_harmosc:
 # %%
 for T in [0,0.1,0.25,0.5,1]:
     Exact_solution_harmosc(Gamma = 0.25,omega_h=0.5,omega_A = 0.5,T =T, t_max=25, truncation=4).save_file()
-    #Exact_solution_single_oscillator(omega = 0.5, Gamma = 0.25,omega_A=0.5,omega_h=0.25,l= l,T =T, t_max=25, truncation=10).plot_expectedval()
-
-    #Exact_solution_single_oscillator(omega = 0.5, Gamma = 0.25,omega_A=0.5,omega_h=0.25,l= l,T =T, t_max=25).save_file()
-
+    
 # %%
-print(sigma_plus())
-# %%
+
