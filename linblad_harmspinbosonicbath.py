@@ -100,7 +100,7 @@ class Exact_solution_harmoscil_spin_bath:
     Parameters
     ----------
     omega: float
-        Frequency of the system
+        Frequency of the spin
     Gamma: float
         Parameter of Linclad equation (strength of the coupling with the system)
     omega_A: float
