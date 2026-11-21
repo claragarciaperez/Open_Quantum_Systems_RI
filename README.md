@@ -23,4 +23,4 @@
 - *qiskit_harmbath.ipynb*: Quantum circuit for harmonic oscillator coupled to a bath (boson or spin) at finite temperature. The bath is treated as an ancilla in the RI model.
 ### Spin coupled to a Harmonic Oscillator. Harmonic Oscillator coupled to a bath
 - *linblad_spinharmtransbosonicbath.py*: Spin coupled to a harmonic oscillator and the harmonic oscillator is coupled to a boson bath that can be at a finite temperature. The code solves lindblad equation for such system.
-
+- *qiskit_spinharmtransbosonicbath.ipynb*: Quantum circuit for a spin coupled (transversal) to a harmonic oscillator which is coupled to a bath (boson or spin) at finite temperature. The bath is treated as an ancilla in the RI model.
